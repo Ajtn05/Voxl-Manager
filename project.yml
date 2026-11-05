@@ -1,0 +1,50 @@
+name: VoxlManager
+options:
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+targets:
+  VoxlManager:
+    type: application
+    platform: macOS
+    sources:
+      - path: VoxlManager
+        excludes: [Resources]
+      - path: VoxlManager/Resources
+        excludes: ["**/__pycache__/**"]
+        buildPhase: resources
+      - path: linux/voxl-manager-serve
+        buildPhase: resources
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        PRODUCT_NAME: Voxl Manager
+        PRODUCT_BUNDLE_IDENTIFIER: local.voxl.VoxlManager
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_APP_SANDBOX: NO
+  VoxlManagerTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [Tests]
+    dependencies:
+      - target: VoxlManager
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Voxl Manager.app/Contents/MacOS/Voxl Manager"
+schemes:
+  VoxlManager:
+    build:
+      targets:
+        VoxlManager: all
+    test:
+      targets: [VoxlManagerTests]

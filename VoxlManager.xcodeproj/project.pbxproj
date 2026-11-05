@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		074C48D903A41E1A6DA3A93F /* ProcessRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2198786A3F8F7B31B8539C /* ProcessRunner.swift */; };
+		0D19AF68FF04C672050B3525 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63278B901E038CF646A8B444 /* SettingsView.swift */; };
+		105225B08FC58A9F134DB11F /* remote.py in Resources */ = {isa = PBXBuildFile; fileRef = 223728CFF1ED5C8E25FADD54 /* remote.py */; };
+		175CFB5BB86EC87866488E85 /* DesktopFullscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7861A99EB733679688AC10DF /* DesktopFullscreen.swift */; };
+		1A48EA192A2995F42EBD4C82 /* TailscaleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF709F17BB1C6D4709953B82 /* TailscaleService.swift */; };
+		25E684ADAA6F18F1CB01117D /* voxl-manager.service in Resources */ = {isa = PBXBuildFile; fileRef = 50A02D4F7E64C29954B8426A /* voxl-manager.service */; };
+		41C9AA44F5671F7F5943B35F /* ServerOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5A0E07EC52C69149EBE97 /* ServerOperations.swift */; };
+		4B49784AE682886D09CAB679 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965FF33EAEB22AF8FD562184 /* DashboardView.swift */; };
+		4E17486293626089A67AAF48 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2812A46532018B277DC64CDE /* LogsView.swift */; };
+		595905FF610D43EC36C9385B /* SSHService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB059AFA5073CF34F616C6EF /* SSHService.swift */; };
+		62118872D4E0A64F3B6AC906 /* ServerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A098859B5339F69097FD2F /* ServerSetupView.swift */; };
+		633B8BEC39591C1A25A1E801 /* VoxlManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7668EA596ED919ACFA253C7E /* VoxlManagerApp.swift */; };
+		6B47718C0C31CE904E883F77 /* ConnectionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F10C3447AEC79197ABAA9C0 /* ConnectionStatus.swift */; };
+		7EB3BDD75F71095795E061A8 /* RemoteDesktopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3381E593D59856A66DFB3299 /* RemoteDesktopView.swift */; };
+		894F2556B81D57ABE83F2670 /* RemoteDesktopWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508B1D06A68E94174EA2E041 /* RemoteDesktopWorkflow.swift */; };
+		9B5776966457FE4C154C3729 /* WorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1ECED29EAABB20171F1709 /* WorkflowTests.swift */; };
+		A8A03A77422725CB154CE6C4 /* ServerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722B7F423AF5CBC6C6514148 /* ServerConfiguration.swift */; };
+		ABF04E6CB53DD627665CEF09 /* ServerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3BDE8D0F2FC11E837DDF1C /* ServerViewModel.swift */; };
+		B3612136E53D072871690CDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497AF3F2E7B92E9868E9203B /* Assets.xcassets */; };
+		DE1B34ECF413CABDB525B618 /* voxl-manager-serve in Resources */ = {isa = PBXBuildFile; fileRef = 3DA9AF41B2C1F3156D044D8B /* voxl-manager-serve */; };
+		EBFC7526D5DA69ADD949077B /* ConnectivityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DAC7BFF2D720DC1067BE47 /* ConnectivityTests.swift */; };
+		F4C28C6D57D06D7BEE2F235D /* install-serve.py in Resources */ = {isa = PBXBuildFile; fileRef = 908A74373CED47A7699BF5E0 /* install-serve.py */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		10A38F5A6BDFC2A464857E09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4921B9EA291E67E1742ED083 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD7182E068CDFC82A3829FD3;
+			remoteInfo = VoxlManager;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0DF58D1C7E0B7BB176ED8E1C /* VoxlManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoxlManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		223728CFF1ED5C8E25FADD54 /* remote.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = remote.py; sourceTree = "<group>"; };
+		22A6679320CC07A9A155669F /* VoxlManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoxlManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2812A46532018B277DC64CDE /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
+		2F3BDE8D0F2FC11E837DDF1C /* ServerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerViewModel.swift; sourceTree = "<group>"; };
+		3381E593D59856A66DFB3299 /* RemoteDesktopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDesktopView.swift; sourceTree = "<group>"; };
+		3D1ECED29EAABB20171F1709 /* WorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkflowTests.swift; sourceTree = "<group>"; };
+		3DA9AF41B2C1F3156D044D8B /* voxl-manager-serve */ = {isa = PBXFileReference; path = "voxl-manager-serve"; sourceTree = "<group>"; };
+		3F10C3447AEC79197ABAA9C0 /* ConnectionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionStatus.swift; sourceTree = "<group>"; };
+		497AF3F2E7B92E9868E9203B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		508B1D06A68E94174EA2E041 /* RemoteDesktopWorkflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDesktopWorkflow.swift; sourceTree = "<group>"; };
+		50A02D4F7E64C29954B8426A /* voxl-manager.service */ = {isa = PBXFileReference; path = "voxl-manager.service"; sourceTree = "<group>"; };
+		63278B901E038CF646A8B444 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		68DAC7BFF2D720DC1067BE47 /* ConnectivityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityTests.swift; sourceTree = "<group>"; };
+		722B7F423AF5CBC6C6514148 /* ServerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfiguration.swift; sourceTree = "<group>"; };
+		7668EA596ED919ACFA253C7E /* VoxlManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoxlManagerApp.swift; sourceTree = "<group>"; };
+		7861A99EB733679688AC10DF /* DesktopFullscreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopFullscreen.swift; sourceTree = "<group>"; };
+		8EB5A0E07EC52C69149EBE97 /* ServerOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerOperations.swift; sourceTree = "<group>"; };
+		908A74373CED47A7699BF5E0 /* install-serve.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "install-serve.py"; sourceTree = "<group>"; };
+		965FF33EAEB22AF8FD562184 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		AF709F17BB1C6D4709953B82 /* TailscaleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TailscaleService.swift; sourceTree = "<group>"; };
+		CB2198786A3F8F7B31B8539C /* ProcessRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessRunner.swift; sourceTree = "<group>"; };
+		DB059AFA5073CF34F616C6EF /* SSHService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHService.swift; sourceTree = "<group>"; };
+		F2A098859B5339F69097FD2F /* ServerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSetupView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		05366794406FAA9AFF0992D5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CB2198786A3F8F7B31B8539C /* ProcessRunner.swift */,
+				508B1D06A68E94174EA2E041 /* RemoteDesktopWorkflow.swift */,
+				8EB5A0E07EC52C69149EBE97 /* ServerOperations.swift */,
+				DB059AFA5073CF34F616C6EF /* SSHService.swift */,
+				AF709F17BB1C6D4709953B82 /* TailscaleService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		15059BA1A1C26F665C86CF65 /* VoxlManager */ = {
+			isa = PBXGroup;
+			children = (
+				23394E2368347B63408C6F50 /* App */,
+				B1F6A6072DA7E437EC871F2E /* Models */,
+				05366794406FAA9AFF0992D5 /* Services */,
+				57EC6C15BF35724AEF8AD87B /* ViewModels */,
+				F7F9F90035FEF83D8C39293D /* Views */,
+			);
+			path = VoxlManager;
+			sourceTree = "<group>";
+		};
+		18725276F1E1FB90F0D8F5AC = {
+			isa = PBXGroup;
+			children = (
+				5900302E1EB39AF6085AFA0F /* linux */,
+				CEB861641AC839A600F0D965 /* Resources */,
+				968FD4D477A7025DDED283EF /* Tests */,
+				15059BA1A1C26F665C86CF65 /* VoxlManager */,
+				FC91BD61F4B916E640663534 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		23394E2368347B63408C6F50 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				7668EA596ED919ACFA253C7E /* VoxlManagerApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		57EC6C15BF35724AEF8AD87B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2F3BDE8D0F2FC11E837DDF1C /* ServerViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5900302E1EB39AF6085AFA0F /* linux */ = {
+			isa = PBXGroup;
+			children = (
+				3DA9AF41B2C1F3156D044D8B /* voxl-manager-serve */,
+			);
+			path = linux;
+			sourceTree = "<group>";
+		};
+		968FD4D477A7025DDED283EF /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				68DAC7BFF2D720DC1067BE47 /* ConnectivityTests.swift */,
+				3D1ECED29EAABB20171F1709 /* WorkflowTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		B1F6A6072DA7E437EC871F2E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3F10C3447AEC79197ABAA9C0 /* ConnectionStatus.swift */,
+				722B7F423AF5CBC6C6514148 /* ServerConfiguration.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEB861641AC839A600F0D965 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				497AF3F2E7B92E9868E9203B /* Assets.xcassets */,
+				908A74373CED47A7699BF5E0 /* install-serve.py */,
+				223728CFF1ED5C8E25FADD54 /* remote.py */,
+				50A02D4F7E64C29954B8426A /* voxl-manager.service */,
+			);
+			name = Resources;
+			path = VoxlManager/Resources;
+			sourceTree = "<group>";
+		};
+		F7F9F90035FEF83D8C39293D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				965FF33EAEB22AF8FD562184 /* DashboardView.swift */,
+				7861A99EB733679688AC10DF /* DesktopFullscreen.swift */,
+				2812A46532018B277DC64CDE /* LogsView.swift */,
+				3381E593D59856A66DFB3299 /* RemoteDesktopView.swift */,
+				F2A098859B5339F69097FD2F /* ServerSetupView.swift */,
+				63278B901E038CF646A8B444 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FC91BD61F4B916E640663534 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0DF58D1C7E0B7BB176ED8E1C /* VoxlManager.app */,
+				22A6679320CC07A9A155669F /* VoxlManagerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C1169D270304D5B8FB9D5F5C /* VoxlManagerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94056A737993E639E6713779 /* Build configuration list for PBXNativeTarget "VoxlManagerTests" */;
+			buildPhases = (
+				5DB338CEB10AA2FDE62967FA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A7B8068C1E15471D4157669E /* PBXTargetDependency */,
+			);
+			name = VoxlManagerTests;
+			packageProductDependencies = (
+			);
+			productName = VoxlManagerTests;
+			productReference = 22A6679320CC07A9A155669F /* VoxlManagerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FD7182E068CDFC82A3829FD3 /* VoxlManager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D8F819E8AC8E33F5981DFF3 /* Build configuration list for PBXNativeTarget "VoxlManager" */;
+			buildPhases = (
+				0DEED57DAE1D3E4A3455BAE2 /* Sources */,
+				BEBFB9784119911688BE294A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoxlManager;
+			packageProductDependencies = (
+			);
+			productName = VoxlManager;
+			productReference = 0DF58D1C7E0B7BB176ED8E1C /* VoxlManager.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4921B9EA291E67E1742ED083 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					FD7182E068CDFC82A3829FD3 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2C79F4B71D020D371053C1A1 /* Build configuration list for PBXProject "VoxlManager" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 18725276F1E1FB90F0D8F5AC;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FC91BD61F4B916E640663534 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FD7182E068CDFC82A3829FD3 /* VoxlManager */,
+				C1169D270304D5B8FB9D5F5C /* VoxlManagerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BEBFB9784119911688BE294A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3612136E53D072871690CDB /* Assets.xcassets in Resources */,
+				F4C28C6D57D06D7BEE2F235D /* install-serve.py in Resources */,
+				105225B08FC58A9F134DB11F /* remote.py in Resources */,
+				DE1B34ECF413CABDB525B618 /* voxl-manager-serve in Resources */,
+				25E684ADAA6F18F1CB01117D /* voxl-manager.service in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0DEED57DAE1D3E4A3455BAE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B47718C0C31CE904E883F77 /* ConnectionStatus.swift in Sources */,
+				4B49784AE682886D09CAB679 /* DashboardView.swift in Sources */,
+				175CFB5BB86EC87866488E85 /* DesktopFullscreen.swift in Sources */,
+				4E17486293626089A67AAF48 /* LogsView.swift in Sources */,
+				074C48D903A41E1A6DA3A93F /* ProcessRunner.swift in Sources */,
+				7EB3BDD75F71095795E061A8 /* RemoteDesktopView.swift in Sources */,
+				894F2556B81D57ABE83F2670 /* RemoteDesktopWorkflow.swift in Sources */,
+				595905FF610D43EC36C9385B /* SSHService.swift in Sources */,
+				A8A03A77422725CB154CE6C4 /* ServerConfiguration.swift in Sources */,
+				41C9AA44F5671F7F5943B35F /* ServerOperations.swift in Sources */,
+				62118872D4E0A64F3B6AC906 /* ServerSetupView.swift in Sources */,
+				ABF04E6CB53DD627665CEF09 /* ServerViewModel.swift in Sources */,
+				0D19AF68FF04C672050B3525 /* SettingsView.swift in Sources */,
+				1A48EA192A2995F42EBD4C82 /* TailscaleService.swift in Sources */,
+				633B8BEC39591C1A25A1E801 /* VoxlManagerApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5DB338CEB10AA2FDE62967FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFC7526D5DA69ADD949077B /* ConnectivityTests.swift in Sources */,
+				9B5776966457FE4C154C3729 /* WorkflowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A7B8068C1E15471D4157669E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD7182E068CDFC82A3829FD3 /* VoxlManager */;
+			targetProxy = 10A38F5A6BDFC2A464857E09 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		05B10135AD87FA23FCE76589 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		0BE9695EC2C6022F46FB7C16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		189DBD2227510DDF42696F9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.voxl.VoxlManager;
+				PRODUCT_NAME = "Voxl Manager";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2EB936383EE0C94B63A1E6B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Voxl Manager.app/Contents/MacOS/Voxl Manager";
+			};
+			name = Release;
+		};
+		6F9C41AAA46EA8A70F9CB5D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Voxl Manager.app/Contents/MacOS/Voxl Manager";
+			};
+			name = Debug;
+		};
+		85D897DEDBDB98FFF06A5260 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.voxl.VoxlManager;
+				PRODUCT_NAME = "Voxl Manager";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C79F4B71D020D371053C1A1 /* Build configuration list for PBXProject "VoxlManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05B10135AD87FA23FCE76589 /* Debug */,
+				0BE9695EC2C6022F46FB7C16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		94056A737993E639E6713779 /* Build configuration list for PBXNativeTarget "VoxlManagerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F9C41AAA46EA8A70F9CB5D3 /* Debug */,
+				2EB936383EE0C94B63A1E6B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9D8F819E8AC8E33F5981DFF3 /* Build configuration list for PBXNativeTarget "VoxlManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				189DBD2227510DDF42696F9D /* Debug */,
+				85D897DEDBDB98FFF06A5260 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4921B9EA291E67E1742ED083 /* Project object */;
+}

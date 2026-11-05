@@ -1,0 +1,228 @@
+#!/usr/bin/python3 -I
+"""Narrow sudo entry point. Accepts fixed verbs and bounded policy arguments."""
+import fcntl
+import http.client
+import json
+import os
+from pathlib import Path
+import re
+import socket
+import subprocess
+import sys
+import tempfile
+
+POLICY = Path("/etc/voxl-manager/serve.json")
+STATE = Path("/var/lib/voxl-manager")
+API = "/localapi/v0/"
+TLS = {"HTTPS": True}
+
+
+class Refusal(Exception):
+    pass
+
+
+class UnixHTTP(http.client.HTTPConnection):
+    def connect(self):
+        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.sock.settimeout(self.timeout)
+        self.sock.connect("/var/run/tailscale/tailscaled.sock")
+
+
+def api(route, body=None, etag=None):
+    conn = UnixHTTP("local-tailscaled.sock", timeout=5)
+    try:
+        headers = {} if body is None else {"Content-Type": "application/json", "If-Match": etag}
+        conn.request("GET" if body is None else "POST", API + route,
+                     None if body is None else json.dumps(body), headers)
+        result = conn.getresponse()
+        data = result.read(2_000_001)
+        if result.status == 412:
+            raise Refusal("Serve changed during this operation. Refresh and retry.")
+        if result.status != 200 or len(data) > 2_000_000:
+            raise Refusal(f"Tailscale LocalAPI rejected {route} (HTTP {result.status}).")
+        return (json.loads(data) if data else None), result.getheader("ETag")
+    finally:
+        conn.close()
+
+
+def port_keys(mapping, port):
+    return [key for key in mapping if key.endswith(":" + port)]
+
+
+def classify(config, host, port, upstream):
+    hp = f"{host}:{port}"
+    web = config.get("Web") or {}
+    tcp = config.get("TCP") or {}
+    for layer in [config, *(config.get("Foreground") or {}).values()]:
+        if any(layer["AllowFunnel"][k] for k in port_keys(layer.get("AllowFunnel") or {}, port)):
+            return "public", None
+        if layer is not config and (port in (layer.get("TCP") or {})
+                                   or port_keys(layer.get("Web") or {}, port)):
+            return "conflict", None
+    entry = web.get(hp) or {}
+    root = (entry.get("Handlers") or {}).get("/") or {}
+    proxy = root.get("Proxy")
+    # Extra paths on a reused listener could intercept Voxl's WebSocket or API.
+    if tcp.get(port) == TLS and set(web_key for web_key in port_keys(web, port)) == {hp}:
+        if set(entry.get("Handlers") or {}) == {"/"} and set(root) == {"Proxy"}:
+            safe = re.fullmatch(r"http://(?:127\.0\.0\.1|localhost):([0-9]{1,5})/?", proxy or "")
+            if safe and int(safe[1]) == upstream:
+                return "matched", f"http://127.0.0.1:{upstream}"
+            if safe:
+                return "mismatch", f"http://127.0.0.1:{safe[1]}"
+    if port in tcp or port_keys(web, port):
+        return "conflict", None
+    return "disabled", None
+
+
+def enable(config, host, port, upstream, owned):
+    kind, _ = classify(config, host, port, upstream)
+    if kind == "matched":
+        return False
+    if kind != "disabled":
+        raise Refusal(f"HTTPS port {port} is {kind}; the existing configuration was preserved.")
+    hp = f"{host}:{port}"
+    root = {"Proxy": f"http://127.0.0.1:{upstream}"}
+    for key in ("TCP", "Web"):
+        if config.get(key) is None:
+            config[key] = {}
+    config["TCP"][port] = TLS.copy()
+    config["Web"][hp] = {"Handlers": {"/": root}}
+    owned[port] = root
+    return True
+
+
+def remove(config, host, owned, keep):
+    changed, preserved = False, []
+    tcp = config.get("TCP") or {}
+    web = config.get("Web") or {}
+    for port, root in list(owned.items()):
+        if port == keep:
+            continue
+        hp = f"{host}:{port}"
+        entry = web.get(hp) or {}
+        handlers = entry.get("Handlers") or {}
+        if "/" not in handlers:
+            del owned[port]
+            continue
+        if handlers["/"] != root or tcp.get(port) != TLS:
+            preserved.append(int(port))
+            continue
+        del handlers["/"]
+        # Preserve other paths and other SNI hosts on the same port.
+        if not handlers and set(entry) == {"Handlers"}:
+            del web[hp]
+        # Leave a listener in place if another web route or Funnel references it.
+        if not port_keys(web, port) and not port_keys(config.get("AllowFunnel") or {}, port):
+            del tcp[port]
+        del owned[port]
+        changed = True
+    return changed, preserved
+
+
+def save(records):
+    with tempfile.NamedTemporaryFile(mode="w", dir=STATE, delete=False) as handle:
+        try:
+            json.dump(records, handle)
+            handle.flush()
+            os.fsync(handle.fileno())
+            os.replace(handle.name, STATE / "owned.json")
+        finally:
+            if os.path.exists(handle.name):
+                os.unlink(handle.name)
+
+
+def valid_port(value):
+    return type(value) is int and 1 <= value <= 65535
+
+
+def check_listening(port):
+    result = subprocess.run(["/usr/bin/ss", "-H", "-ltn", f"sport = :{port}"],
+                            capture_output=True, text=True, timeout=3, check=True)
+    if result.stdout.strip():
+        raise Refusal(f"A Linux process already listens on TCP port {port}.")
+
+
+def main():
+    if os.geteuid() != 0:
+        raise Refusal("The administrator must install the Voxl Manager sudo rule.")
+    if (len(sys.argv) < 3 or sys.argv[1] not in {"inspect", "enable", "prune", "disable"}
+            or not re.fullmatch(r"0|[1-9][0-9]{0,4}", sys.argv[2])):
+        raise Refusal("Usage: voxl-manager-serve inspect|enable|prune PORT, or disable 0.")
+    verb, port = sys.argv[1:3]
+    if len(sys.argv) != (5 if verb in {"enable", "prune"} else 3):
+        raise Refusal("Unexpected Serve arguments.")
+    if (verb == "disable" and port != "0") or (verb != "disable" and not valid_port(int(port))):
+        raise Refusal("Invalid HTTPS port.")
+    policy = json.loads(POLICY.read_text())
+    host, upstream, allowed = policy["hostname"], policy["upstreamPort"], policy["httpsPorts"]
+    if (not re.fullmatch(r"[a-z0-9.-]+\.ts\.net", host)
+            or not valid_port(upstream) or not isinstance(allowed, list)
+            or not all(valid_port(p) and p != upstream for p in allowed)):
+        raise Refusal("Invalid administrator policy.")
+    if verb in {"enable", "prune"} and sys.argv[3:] != [host, str(upstream)]:
+        raise Refusal("The app hostname or HTTP port differs from the administrator policy.")
+    if verb == "enable" and int(port) not in allowed:
+        raise Refusal(f"HTTPS port {port} is not allowed in /etc/voxl-manager/serve.json.")
+    os.umask(0o077)
+    with (STATE / "lock").open("a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise Refusal("Another Serve change is in progress. Try again.")
+        status, _ = api("status?peers=false")
+        node = status.get("Self") or {}
+        node_host = (node.get("DNSName") or "").rstrip(".").lower()
+        if status.get("BackendState") != "Running" or node_host != host or not node.get("ID"):
+            raise Refusal("The Linux node is disconnected or its MagicDNS name differs from the policy.")
+        # Ownership is tied to the Tailscale node identity as well as the hostname.
+        record_key = f"{node.get('StableID') or node['ID']}:{host}"
+        path = STATE / "owned.json"
+        records = json.loads(path.read_text()) if path.exists() else {}
+        owned = records.setdefault(record_key, {})
+        if not isinstance(owned, dict) or any(
+                not k.isdecimal() or not valid_port(int(k)) or
+                not isinstance(v, dict) or set(v) != {"Proxy"} or
+                not re.fullmatch(r"http://127\.0\.0\.1:[0-9]{1,5}", v["Proxy"])
+                for k, v in owned.items()):
+            raise Refusal("Invalid Serve ownership registry.")
+        config, etag = api("serve-config")
+        if config is None:
+            config = {}
+        if not isinstance(config, dict):
+            raise Refusal("Unrecognized Serve configuration.")
+        changed, preserved = False, []
+        if verb == "enable":
+            kind, _ = classify(config, host, port, upstream)
+            if kind == "disabled":
+                check_listening(port)
+                if host not in (status.get("CertDomains") or []):
+                    raise Refusal("Enable HTTPS certificates for this node in the Tailscale admin console.")
+            changed = enable(config, host, port, upstream, owned)
+        elif verb in {"prune", "disable"}:
+            if verb == "prune" and classify(config, host, port, upstream)[0] != "matched":
+                raise Refusal("The replacement proxy changed. Older entries were preserved.")
+            changed, preserved = remove(config, host, owned, port if verb == "prune" else None)
+        if changed:
+            if not etag:
+                raise Refusal("This Tailscale LocalAPI does not provide a Serve ETag. Update Tailscale.")
+            api("serve-config", config, etag)
+        if verb != "inspect":
+            save(records)
+        kind, target = classify(config, host, port, upstream)
+        if preserved:
+            raise Refusal("Serve changed outside Voxl Manager. Preserved HTTPS ports: "
+                          + ", ".join(map(str, preserved)) + ".")
+        print(json.dumps({"kind": kind, "upstream": target, "host": host,
+                          "approvedUpstream": upstream, "allowedPorts": allowed,
+                          "ownedPorts": sorted(map(int, owned))}))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (OSError, ValueError, TypeError, KeyError, AttributeError, http.client.HTTPException,
+            subprocess.SubprocessError, Refusal) as error:
+        print(str(error) if isinstance(error, Refusal) else
+              "Serve helper could not read its policy, state, or the Tailscale daemon.", file=sys.stderr)
+        sys.exit(1)

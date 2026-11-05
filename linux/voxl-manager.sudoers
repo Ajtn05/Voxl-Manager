@@ -1,0 +1,2 @@
+# The root-owned helper validates its exact argument count, verbs and policy.
+aldrinnellas ALL=(root) NOPASSWD: /usr/local/sbin/voxl-manager-serve

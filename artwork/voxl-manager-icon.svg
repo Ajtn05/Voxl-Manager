@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Voxl Manager app icon</title>
+  <desc>A luminous V on a desktop display, set into a cobalt tile with a green connection light.</desc>
+  <defs>
+    <path id="plate" d="M325 78h374c175 0 247 72 247 247v366c0 175-72 247-247 247H325c-175 0-247-72-247-247V325C78 150 150 78 325 78Z"/>
+    <clipPath id="tile"><use xlink:href="#plate"/></clipPath>
+    <clipPath id="screen"><rect x="218" y="258" width="588" height="333" rx="48"/></clipPath>
+    <linearGradient id="body" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#5676F1"/>
+      <stop offset="42%" stop-color="#314DCA"/>
+      <stop offset="100%" stop-color="#18266C"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="88%" cy="6%" r="71%">
+      <stop offset="0%" stop-color="#46B5F5" stop-opacity=".75"/>
+      <stop offset="100%" stop-color="#46B5F5" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="15%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#D3E8FF" stop-opacity=".62"/>
+      <stop offset="48%" stop-color="#80B3FF" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#324C9C" stop-opacity=".46"/>
+    </linearGradient>
+    <linearGradient id="bezel" x1="0%" y1="0%" x2="65%" y2="100%">
+      <stop offset="0%" stop-color="#293D76"/>
+      <stop offset="100%" stop-color="#0A132F"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#1C2D5F"/>
+      <stop offset="61%" stop-color="#111E42"/>
+      <stop offset="100%" stop-color="#0E1732"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8BA7ED"/>
+      <stop offset="70%" stop-color="#ACC5FB"/>
+      <stop offset="100%" stop-color="#6787D7"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="17%" y1="0%" x2="72%" y2="100%">
+      <stop offset="0%" stop-color="#F3FDFF"/>
+      <stop offset="45%" stop-color="#BDF3FF"/>
+      <stop offset="100%" stop-color="#59D7F8"/>
+    </linearGradient>
+  </defs>
+  <use xlink:href="#plate" transform="translate(0 16)" fill="#10162F" opacity=".26"/>
+  <use xlink:href="#plate" transform="translate(0 7)" fill="#10162F" opacity=".47"/>
+  <use xlink:href="#plate" fill="url(#body)"/>
+  <g clip-path="url(#tile)">
+    <rect x="78" y="78" width="868" height="860" fill="url(#glow)"/>
+    <path d="M654 938H338l608-608v316Z" fill="#638DFA" opacity=".08"/>
+    <path d="M610 938h-3l339-339v3ZM673 938h-3l276-276v3Z" fill="#A8CBFF" opacity=".22"/>
+  </g>
+  <use xlink:href="#plate" fill="none" stroke="url(#edge)" stroke-width="6"/>
+
+  <path d="M458 607h108l10 86q5 34 49 43H399q44-9 49-43Z" fill="#0C1537" opacity=".45" transform="translate(0 10)"/>
+  <path d="M458 607h108l10 86q5 34 49 43H399q44-9 49-43Z" fill="url(#metal)"/>
+  <rect x="367" y="724" width="290" height="37" rx="18.5" fill="#0C1537" opacity=".36" transform="translate(0 7)"/>
+  <rect x="367" y="724" width="290" height="37" rx="18.5" fill="url(#metal)"/>
+  <path d="M386 729h252" stroke="#E9F5FF" stroke-opacity=".49" stroke-width="3" stroke-linecap="round"/>
+
+  <rect x="190" y="232" width="644" height="385" rx="73" fill="#08102A" opacity=".44" transform="translate(0 14)"/>
+  <rect x="190" y="232" width="644" height="385" rx="73" fill="url(#bezel)" stroke="#A9C9FF" stroke-opacity=".72" stroke-width="5"/>
+  <rect x="218" y="258" width="588" height="333" rx="48" fill="url(#glass)"/>
+  <g clip-path="url(#screen)">
+    <path d="M218 258h588v40L322 591H218Z" fill="#96B9FF" opacity=".055"/>
+    <path d="M218 259h588" fill="none" stroke="#B0CCFF" stroke-opacity=".24" stroke-width="5"/>
+  </g>
+
+  <path d="M343 333q-12 0-7 11l124 180q6 9 17 9h64q11 0 17-9l124-180q5-11-7-11h-59q-11 0-17 10l-90 134-90-134q-6-10-17-10Z" fill="#060E26" opacity=".58" transform="translate(0 7)"/>
+  <path d="M343 333q-12 0-7 11l124 180q6 9 17 9h64q11 0 17-9l124-180q5-11-7-11h-59q-11 0-17 10l-90 134-90-134q-6-10-17-10Z" fill="url(#mark)"/>
+  <circle cx="754" cy="542" r="20" fill="#63F9CE" opacity=".16"/>
+  <circle cx="754" cy="542" r="10" fill="#7DFFDA"/>
+</svg>

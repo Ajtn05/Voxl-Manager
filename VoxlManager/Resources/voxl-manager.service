@@ -1,0 +1,13 @@
+# Installed by Voxl Manager
+[Unit]
+Description=Voxl Manager remote desktop
+After=graphical-session.target
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/python3 -I -u %h/.local/share/voxl-manager/remote.py launch
+WorkingDirectory=%h
+UMask=0077
+Restart=no
+TimeoutStopSec=8
+KillMode=control-group

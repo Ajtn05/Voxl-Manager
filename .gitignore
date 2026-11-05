@@ -1,0 +1,22 @@
+.DS_Store
+
+# Xcode and Swift build products
+DerivedData/
+.build/
+*.xcarchive/
+*.xcresult/
+*.dSYM/
+*.xcuserstate
+xcuserdata/
+
+# Local environment and signing credentials
+.env
+.env.local
+*.p12
+*.p8
+*.mobileprovision
+*.provisionprofile
+
+# Python bytecode
+__pycache__/
+*.pyc
