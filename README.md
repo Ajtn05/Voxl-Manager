@@ -1,15 +1,24 @@
-# Voxl Manager
+<p align="center">
+  <img src="VoxlManager/Resources/Assets.xcassets/AppIcon.appiconset/icon-128.png" width="128" height="128" alt="Voxl Manager app icon">
+</p>
 
-Voxl Manager is a native SwiftUI app for a single Linux X11 desktop on your tailnet. It uses macOS OpenSSH for Linux commands, a systemd user service for Voxl, and WebKit for the viewer. No bundled Voxl binary or additional macOS runtime is required.
+<h1 align="center">Voxl Manager</h1>
 
-Use your own Linux desktop on your Tailscale network. Voxl Manager defaults to display `:0`, the Linux user's `~/.Xauthority`, local HTTP port `6901`, and private HTTPS port `8443`.
+<p align="center">View and control your Linux X11 desktop from your Mac over Tailscale.</p>
 
-## Build and run
+## Quick start
+
+1. **Prepare your Linux desktop.** Install Voxl on Linux and sign in to an X11 session. Connect your Mac and Linux machine to the same tailnet, enable MagicDNS and HTTPS certificates, and set up SSH key access from your Mac. [Linux setup and troubleshooting](docs/setup.md)
+2. **Open Voxl Manager.** Clone or download this repository and run the app in Xcode on macOS 14 or later. [Build from source](#build-from-source)
+3. **Add your server.** On first launch, **Settings** opens automatically. Enter your Linux server's full MagicDNS hostname and the username signed into the X11 session, then click **Save Settings**. Set the display or Xauthority path if your desktop uses different values from `:0` and the Linux user's `~/.Xauthority`.
+4. **Start your desktop.** In **Overview**, click **Start Remote Desktop** and follow any setup prompts. If the app asks for permission to create a private HTTPS route, run its prepared command in Terminal, approve the Linux sudo prompt, then click **Check & Continue**. The viewer opens once the app verifies the connection.
+
+If Voxl is already running behind a private Tailscale Serve proxy, use **Connect Viewer**. The default ports are `6901` for Voxl on Linux and `8443` for private HTTPS.
+
+## Build from source
 
 1. Open `VoxlManager.xcodeproj` in Xcode. Select the **VoxlManager** scheme and **My Mac**.
 2. Press **⌘R**. The project targets macOS 14 or later and uses local ad hoc signing. Use your own signing identity for distribution.
-3. Connect both machines to the same tailnet. In **Settings**, enter the Linux server's full MagicDNS hostname and the username signed into its X11 desktop, then click **Save Settings**. If the desktop uses a different Xauthority file, enter its absolute Linux path.
-4. In **Overview**, choose **Start Remote Desktop**. The app guides you through SSH trust, installing the user service, and approving the Serve helper when needed. The [Linux setup guide](docs/setup.md) has manual setup and troubleshooting steps.
 
 The checked-in Xcode project works without XcodeGen. If you add or remove files or edit `project.yml`, run `xcodegen generate` to refresh it. The app runs without administrator privileges. It is not App Sandbox restricted so it can use your OpenSSH configuration, host keys, and agent.
 
