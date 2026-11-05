@@ -16,7 +16,7 @@ spec = importlib.util.spec_from_loader(loader.name, loader)
 serve = importlib.util.module_from_spec(spec)
 loader.exec_module(serve)
 
-HOST = "mint-server.tail439626.ts.net"
+HOST = "desktop.example-tailnet.ts.net"
 PORT = "8443"
 HP = f"{HOST}:{PORT}"
 TARGET = "http://127.0.0.1:6901"

@@ -54,6 +54,10 @@ final class ServerViewModel {
     func launch() {
         guard !didLaunch else { return }
         didLaunch = true
+        guard config.isConfigured else {
+            selection = .settings
+            return
+        }
         if config.connectOnLaunch { perform(.connect) }
         else if config.checkOnLaunch { perform(.refresh) }
     }
@@ -86,6 +90,10 @@ final class ServerViewModel {
 
     func perform(_ command: ServerCommand, allowServiceInstall: Bool = false) {
         guard operation == nil else { return }
+        guard config.isConfigured else {
+            selection = .settings
+            return
+        }
         let settings = config
         error = nil
         progress = command.rawValue + "…"

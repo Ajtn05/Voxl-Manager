@@ -28,7 +28,7 @@ struct TailscaleService: Sendable {
 
     func report(_ config: ServerConfiguration, ssh: SSHService) async throws -> ConnectionReport {
         guard !candidates.isEmpty else {
-            return .init(status: .notInstalled, detail: "Install Tailscale on this Mac and sign in to the same tailnet as Mint.",
+            return .init(status: .notInstalled, detail: "Install Tailscale on this Mac and sign in to the same tailnet as the Linux server.",
                          tailscale: "Not installed")
         }
         var cli: String?

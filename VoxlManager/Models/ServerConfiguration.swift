@@ -1,13 +1,13 @@
 import Foundation
 
 struct ServerConfiguration: Codable, Equatable, Sendable {
-    var hostname = "mint-server.tail439626.ts.net"
-    var username = "aldrinnellas"
+    var hostname = ""
+    var username = ""
     var sshPort = "" // Empty inherits OpenSSH configuration, including port 22 by default.
     var sshAlias = ""
     var executable = ""
     var display = ":0"
-    var xauthority = "/home/aldrinnellas/.Xauthority"
+    var xauthority = ""
     var httpPort = 6901
     var httpsPort = 8443
     var checkOnLaunch = true
@@ -15,6 +15,8 @@ struct ServerConfiguration: Codable, Equatable, Sendable {
     var menuBar = false
 
     static let storageKey = "serverConfiguration"
+
+    var isConfigured: Bool { !hostname.isEmpty && !username.isEmpty }
 
     func validated() throws -> Self {
         var value = self
@@ -45,7 +47,7 @@ struct ServerConfiguration: Codable, Equatable, Sendable {
         guard display.wholeMatch(of: /:[0-9]{1,5}(?:\.[0-9]{1,5})?/) != nil else {
             throw ManagerError("Enter a local X11 display such as :0.")
         }
-        for path in [xauthority] + (executable.isEmpty ? [] : [executable]) {
+        for path in [xauthority, executable] where !path.isEmpty {
             guard path.hasPrefix("/"), path.count <= 4096,
                   !path.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }) else {
                 throw ManagerError("Enter absolute Linux paths for the executable and Xauthority.")
@@ -57,6 +59,7 @@ struct ServerConfiguration: Codable, Equatable, Sendable {
     var destination: String { "\(username)@\(sshAlias.isEmpty ? hostname : sshAlias)" }
 
     var remoteURL: URL? {
+        guard isConfigured else { return nil }
         var components = URLComponents()
         components.scheme = "https"
         components.host = hostname

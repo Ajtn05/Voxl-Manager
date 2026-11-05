@@ -1,5 +1,5 @@
 {
-  "hostname": "mint-server.tail439626.ts.net",
+  "hostname": "",
   "upstreamPort": 6901,
   "httpsPorts": [8443, 9443, 10443]
 }

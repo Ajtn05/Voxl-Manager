@@ -55,9 +55,7 @@ def props(text):
 def discover(config):
     override = config["executable"]
     candidates = [override] if override else [shutil.which("voxl"), HOME / ".cargo/bin/voxl",
-        HOME / ".local/bin/voxl", HOME / "Projects/voxl/target/release/voxl",
-        HOME / "Projects/voxl/target/debug/voxl", HOME / "Projects/voxl/voxl",
-        "/usr/local/bin/voxl", "/usr/bin/voxl"]
+        HOME / ".local/bin/voxl", "/usr/local/bin/voxl", "/usr/bin/voxl"]
     return next((str(Path(p).resolve()) for p in candidates
                  if p and os.path.isfile(p) and os.access(p, os.X_OK)), None)
 
@@ -96,7 +94,7 @@ def desktop(config):
         if not x11:
             if any(s.get("Type") == "wayland" and s.get("Remote") == "no" for s in sessions):
                 return "unavailable", "The desktop uses Wayland. Sign in to a local X11 session."
-            return "loggedOut", "This SSH user has no local X11 desktop session. Sign in on Mint first."
+            return "loggedOut", "This SSH user has no local X11 desktop session. Sign in on the Linux desktop first."
         display = config["display"]
         if not any(s.get("Display", "") in {"", display, display.split(".")[0]} for s in x11):
             return "unavailable", f"The logged-in X11 session does not match {display}."
@@ -456,7 +454,8 @@ def main():
     action = sys.argv[1]
     if action == "launch":
         return launch()
-    config = CONFIGURATION
+    config = CONFIGURATION.copy()
+    config["xauthority"] = config["xauthority"] or str(HOME / ".Xauthority")
     verify_node(config)
     if action == "inspect":
         value = current(config)

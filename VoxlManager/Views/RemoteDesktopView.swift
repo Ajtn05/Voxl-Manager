@@ -291,7 +291,7 @@ struct EmbeddedDesktop: NSViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             if !unsupported, retry == nil, state.wrappedValue != .connected { set(.pageReady) }
-            fullscreen.refreshPage()
+            fullscreen.focusPage()
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {

@@ -45,7 +45,7 @@ struct DashboardView: View {
                             }
                             .menuStyle(.borderlessButton)
                             .fixedSize()
-                            .disabled(model.busy)
+                            .disabled(!model.config.isConfigured || model.busy)
                             .accessibilityLabel("HTTPS port")
                         }
                         row("Upstream", model.snapshot?.serve.upstream ?? "—", monospace: true)
@@ -103,13 +103,17 @@ struct DashboardView: View {
                 }
             }
             HStack(spacing: 10) {
-                Button { model.perform(.start) } label: {
-                    Label("Start Remote Desktop", systemImage: "play.fill")
-                }.buttonStyle(.borderedProminent).disabled(model.busy)
-                if model.viewerURL != nil {
-                    Button("Disconnect Viewer", action: model.disconnect)
+                if model.config.isConfigured {
+                    Button { model.perform(.start) } label: {
+                        Label("Start Remote Desktop", systemImage: "play.fill")
+                    }.buttonStyle(.borderedProminent).disabled(model.busy)
+                    if model.viewerURL != nil {
+                        Button("Disconnect Viewer", action: model.disconnect)
+                    } else {
+                        Button("Connect Viewer") { model.perform(.connect) }.disabled(model.busy)
+                    }
                 } else {
-                    Button("Connect Viewer") { model.perform(.connect) }.disabled(model.busy)
+                    Button("Configure Server") { model.selection = .settings }.buttonStyle(.borderedProminent)
                 }
             }
             .controlSize(.large)

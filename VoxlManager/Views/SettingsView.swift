@@ -12,8 +12,8 @@ struct SettingsView: View {
     var body: some View {
         Form {
             SwiftUI.Section("Server & SSH") {
-                TextField("MagicDNS hostname", text: $draft.hostname)
-                TextField("SSH username", text: $draft.username)
+                TextField("MagicDNS hostname", text: $draft.hostname, prompt: Text("server.your-tailnet.ts.net"))
+                TextField("SSH username", text: $draft.username, prompt: Text("Linux desktop account"))
                 TextField("SSH config alias (optional)", text: $draft.sshAlias, prompt: Text("Use MagicDNS hostname"))
                 TextField("SSH port (optional)", text: $draft.sshPort, prompt: Text("Use SSH config · normally 22"))
             }
@@ -23,7 +23,7 @@ struct SettingsView: View {
                     LabeledContent("Detected executable") { Text(executable).textSelection(.enabled) }
                 }
                 TextField("X11 display", text: $draft.display)
-                TextField("Xauthority path", text: $draft.xauthority)
+                TextField("Xauthority path", text: $draft.xauthority, prompt: Text("~/.Xauthority on Linux"))
                 TextField("Voxl HTTP port", value: $draft.httpPort, format: .number.grouping(.never))
                 TextField("Serve HTTPS port", value: $draft.httpsPort, format: .number.grouping(.never))
                 if let allowed = model.snapshot?.serve.allowedPorts {
@@ -32,7 +32,7 @@ struct SettingsView: View {
             }
             SwiftUI.Section("Serve management") {
                 Button("Set Up Serve Management…", action: model.guideServeSetup)
-                    .disabled(dirty || model.busy || model.snapshot?.serve.allowedPorts != nil)
+                    .disabled(!model.config.isConfigured || dirty || model.busy || model.snapshot?.serve.allowedPorts != nil)
                 if model.snapshot?.serve.allowedPorts != nil {
                     Label("Administrator helper available", systemImage: "checkmark.circle")
                         .foregroundStyle(.secondary)
@@ -46,7 +46,7 @@ struct SettingsView: View {
             SwiftUI.Section {
                 HStack {
                     Button("Install / Update User Service…") { showInstall = true }
-                        .disabled(dirty || model.busy)
+                        .disabled(!model.config.isConfigured || dirty || model.busy)
                     Spacer()
                     if dirty { Button("Revert") { draft = model.config; feedback = nil } }
                     Button("Save Settings") { save() }.buttonStyle(.borderedProminent).disabled(!dirty || model.busy)

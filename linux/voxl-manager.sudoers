@@ -1,2 +1,2 @@
-# The root-owned helper validates its exact argument count, verbs and policy.
-aldrinnellas ALL=(root) NOPASSWD: /usr/local/sbin/voxl-manager-serve
+# Replace YOUR_LINUX_USER with your desktop username and uncomment the rule in visudo.
+# YOUR_LINUX_USER ALL=(root) NOPASSWD: /usr/local/sbin/voxl-manager-serve

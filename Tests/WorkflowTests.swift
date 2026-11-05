@@ -4,11 +4,25 @@ import XCTest
 
 @MainActor
 final class WorkflowTests: XCTestCase {
+    func testUnconfiguredServerRejectsCommandsBeforeConnecting() async {
+        let server = Fixture()
+        let settings = ServerConfiguration()
+        XCTAssertNil(settings.remoteURL)
+        do {
+            _ = try await RemoteDesktopWorkflow(server: server).run(.refresh, config: settings) { _ in }
+            XCTFail("Refresh requires a configured server")
+        } catch {
+            XCTAssertTrue(error.localizedDescription.contains("MagicDNS"))
+        }
+        let calls = await server.calls
+        XCTAssertTrue(calls.isEmpty)
+    }
+
     func testFirstStartRequestsApprovalThenInstallsAndStartsTheUserService() async throws {
         let server = Fixture(voxlHealth: .stopped, unit: "missing")
         let workflow = RemoteDesktopWorkflow(server: server)
         do {
-            _ = try await workflow.run(.start, config: .init()) { _ in }
+            _ = try await workflow.run(.start, config: .testServer) { _ in }
             XCTFail("First start must ask before installing the Linux unit")
         } catch let setup as ServerSetupRequired {
             XCTAssertEqual(setup.step, .userService)
@@ -16,7 +30,7 @@ final class WorkflowTests: XCTestCase {
         let beforeApproval = await server.calls
         XCTAssertEqual(beforeApproval, ["connection", "inspect"])
 
-        let url = try await workflow.run(.start, config: .init(), allowServiceInstall: true) { _ in }
+        let url = try await workflow.run(.start, config: .testServer, allowServiceInstall: true) { _ in }
         XCTAssertNotNil(url)
         let calls = await server.calls
         XCTAssertEqual(Array(calls.dropFirst(beforeApproval.count).prefix(4)),
@@ -26,7 +40,7 @@ final class WorkflowTests: XCTestCase {
     func testMissingServeHelperRequestsAdministratorWithoutStartingVoxl() async throws {
         let server = Fixture(hasHelper: false)
         do {
-            _ = try await RemoteDesktopWorkflow(server: server).run(.start, config: .init()) { _ in }
+            _ = try await RemoteDesktopWorkflow(server: server).run(.start, config: .testServer) { _ in }
             XCTFail("The app must wait for Linux administrator setup")
         } catch let setup as ServerSetupRequired {
             XCTAssertEqual(setup.step, .serveAdmin)
@@ -37,7 +51,7 @@ final class WorkflowTests: XCTestCase {
 
     func testStartVerifiesReplacementBeforePruningOldPort() async throws {
         let server = Fixture()
-        let settings = ServerConfiguration()
+        let settings = ServerConfiguration.testServer
         let url = try await RemoteDesktopWorkflow(server: server).run(.start, config: settings) { _ in }
         XCTAssertEqual(url, settings.remoteURL)
         let calls = await server.calls
@@ -48,7 +62,7 @@ final class WorkflowTests: XCTestCase {
     func testHTTPSFailurePreservesOldRoute() async {
         let server = Fixture(verifyFails: true)
         do {
-            _ = try await RemoteDesktopWorkflow(server: server).run(.start, config: .init()) { _ in }
+            _ = try await RemoteDesktopWorkflow(server: server).run(.start, config: .testServer) { _ in }
             XCTFail("Start must fail when HTTPS is not verified")
         } catch {
             XCTAssertEqual(error.localizedDescription, "TLS failed")
@@ -60,7 +74,7 @@ final class WorkflowTests: XCTestCase {
 
     func testPrivateExistingEndpointConnectDoesNotMutateServer() async throws {
         let server = Fixture(kind: .matched)
-        let url = try await RemoteDesktopWorkflow(server: server).run(.connect, config: .init()) { _ in }
+        let url = try await RemoteDesktopWorkflow(server: server).run(.connect, config: .testServer) { _ in }
         XCTAssertNotNil(url)
         let calls = await server.calls
         XCTAssertEqual(calls, ["connection", "inspect", "verify"])
@@ -74,7 +88,7 @@ final class WorkflowTests: XCTestCase {
         ]
         for (server, expected) in cases {
             do {
-                _ = try await RemoteDesktopWorkflow(server: server).run(.start, config: .init()) { _ in }
+                _ = try await RemoteDesktopWorkflow(server: server).run(.start, config: .testServer) { _ in }
                 XCTFail("Start should refuse to mutate the server")
             } catch { }
             let calls = await server.calls
@@ -85,7 +99,7 @@ final class WorkflowTests: XCTestCase {
     func testStopAttemptsProxyCleanupAfterServiceError() async {
         let server = Fixture(stopFails: true)
         do {
-            _ = try await RemoteDesktopWorkflow(server: server).run(.stop, config: .init()) { _ in }
+            _ = try await RemoteDesktopWorkflow(server: server).run(.stop, config: .testServer) { _ in }
             XCTFail("Stop should report partial failure")
         } catch {
             XCTAssertEqual(error.localizedDescription, "Service stop failed")

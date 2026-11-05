@@ -6,7 +6,7 @@ import XCTest
 @MainActor
 final class ConnectivityTests: XCTestCase {
     func testWebKitCanDispatchTheViewerAuthenticationChallenge() throws {
-        let url = try XCTUnwrap(ServerConfiguration().remoteURL)
+        let url = try XCTUnwrap(ServerConfiguration.testServer.remoteURL)
         let coordinator = EmbeddedDesktop.Coordinator(url: url, state: .constant(.loading), reload: 0)
         let callback = NSSelectorFromString("webView:didReceiveAuthenticationChallenge:completionHandler:")
         XCTAssertTrue(coordinator.responds(to: callback))
@@ -24,22 +24,22 @@ final class ConnectivityTests: XCTestCase {
         for (status, ping, sshFailure, expected) in cases {
             let process = MockCLI(status: status, ping: ping, sshFailure: sshFailure)
             let service = TailscaleService(runner: process, candidates: status == nil ? [] : ["/tailscale"])
-            let report = try await service.report(.init(), ssh: .init(runner: process))
+            let report = try await service.report(.testServer, ssh: .init(runner: process))
             XCTAssertEqual(report.status, expected)
         }
     }
 
     func testSSHSettingsRejectOptionInjectionAndPreserveHostVerification() throws {
-        var configuration = ServerConfiguration()
+        var configuration = ServerConfiguration.testServer
         configuration.sshAlias = "-oProxyCommand=oops"
         XCTAssertThrowsError(try configuration.validated())
-        configuration.sshAlias = "mint"
+        configuration.sshAlias = "desktop"
         configuration.sshPort = "2222"
         let ssh = SSHService(runner: ProcessRunner())
         let arguments = ssh.arguments(try configuration.validated(), remote: ["/bin/printf", "a'b;\"$HOME\""])
         XCTAssertTrue(arguments.contains("StrictHostKeyChecking=yes"))
         XCTAssertTrue(arguments.contains("2222"))
-        XCTAssertEqual(Array(arguments.suffix(3)), ["--", "aldrinnellas@mint", #"'/bin/printf' 'a'\''b;"$HOME"'"#])
+        XCTAssertEqual(Array(arguments.suffix(3)), ["--", "desktop-user@desktop", #"'/bin/printf' 'a'\''b;"$HOME"'"#])
     }
 
     func testProcessDrainsBothPipesAndSendsLargeInput() async throws {
@@ -69,6 +69,10 @@ final class ConnectivityTests: XCTestCase {
             XCTAssertTrue(error is CancellationError)
         }
     }
+}
+
+extension ServerConfiguration {
+    static let testServer = Self(hostname: "desktop.example-tailnet.ts.net", username: "desktop-user")
 }
 
 private struct MockCLI: ProcessRunning {

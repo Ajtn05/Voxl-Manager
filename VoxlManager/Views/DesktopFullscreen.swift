@@ -56,7 +56,7 @@ final class DesktopFullscreen: NSObject, NSWindowDelegate {
         capture.setFrame(screen.frame, display: true)
         capture.makeKeyAndOrderFront(nil)
         capture.makeFirstResponder(webView)
-        refreshPage()
+        focusPage()
         showReleaseHint(in: content)
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [weak self, weak capture] event in
             guard event.window === capture, Self.isReleaseShortcut(event) else { return event }
@@ -70,21 +70,11 @@ final class DesktopFullscreen: NSObject, NSWindowDelegate {
         RunLoop.main.add(timer, forMode: .common)
     }
 
-    func refreshPage() {
+    func focusPage() {
         guard window != nil, let webView = host?.webView else { return }
-        webView.evaluateJavaScript("""
-        (() => {
-          if (!document.getElementById('surface') || !document.getElementById('screen')) return;
-          if (!document.getElementById('voxl-manager-fullscreen')) {
-            const style = document.createElement('style');
-            style.id = 'voxl-manager-fullscreen';
-            // Scale the same box Voxl uses to convert pointer locations into Mint coordinates.
-            style.textContent = '#surface { position:fixed !important; inset:0 !important; width:100% !important; height:100% !important; max-width:none !important; max-height:none !important; }';
-            document.head.append(style);
-          }
-          document.getElementById('kbd')?.focus({preventScroll:true});
-        })();
-        """, completionHandler: nil)
+        // Voxl sizes and centers its video and pointer surface together as the window grows.
+        webView.evaluateJavaScript("document.getElementById('kbd')?.focus({preventScroll:true});",
+                                   completionHandler: nil)
     }
 
     func exit(restoreFocus: Bool = true) {
@@ -95,10 +85,7 @@ final class DesktopFullscreen: NSObject, NSWindowDelegate {
         if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
         keyMonitor = nil
         if let host {
-            host.webView.evaluateJavaScript("""
-            document.getElementById('voxl-manager-fullscreen')?.remove();
-            window.dispatchEvent(new Event('blur'));
-            """, completionHandler: nil)
+            host.webView.evaluateJavaScript("window.dispatchEvent(new Event('blur'));", completionHandler: nil)
             host.restoreViewer()
             if restoreFocus { host.window?.makeKeyAndOrderFront(nil) }
         }
